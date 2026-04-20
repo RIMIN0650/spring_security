@@ -26,6 +26,10 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:8.4.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-orgjson:0.12.6'
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

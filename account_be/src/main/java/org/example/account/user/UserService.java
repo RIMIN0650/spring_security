@@ -26,15 +26,15 @@ public class UserService implements UserDetailsService {
 
 
 
-    // 5번 실행
+    // TODO : 5번
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("UserService 실행됨");
-        
-        // 6번
+
+        // TODO : 6번
         User user = userRepository.findByEmail(username).orElseThrow();
 
-        // 7번
+        // TODO : 7번
         return AuthUserDetails.from(user);
     }
 }

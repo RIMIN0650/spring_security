@@ -1,10 +1,14 @@
 package org.example.account.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.example.account.user.model.AuthUserDetails;
 import org.example.account.user.model.UserDto;
+import org.example.account.utils.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,27 +28,35 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.authenticationManager = authenticationManager;
     }
 
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        System.out.println("로그인 성공했을 때 실행");
+        AuthUserDetails user = (AuthUserDetails) authResult.getPrincipal();
+        String token = JwtUtil.createToken(user.getIdx(), user.getUsername());
+        response.setHeader("Set-Cookie", "ATOKEN=" + token + "; Path=/");
+    }
 
-    // 1번
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.getWriter().write("login failed");
+    }
+
+    // TODO : 1번
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("내 필터가 실행된다.");
+        System.out.println("내 필터가 실행됨");
 
         try {
             UserDto.LoginReq dto = new ObjectMapper().readValue(request.getInputStream(), UserDto.LoginReq.class);
 
-            // 2번
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword(), null);
-            // 3번
-            authenticationManager.authenticate(token);
-
-
+            // TODO : 2번
+            UsernamePasswordAuthenticationToken token =
+                    new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword(), null);
+            // TODO : 3번
+            return authenticationManager.authenticate(token);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-        return super.attemptAuthentication(request, response);
     }
 }
 

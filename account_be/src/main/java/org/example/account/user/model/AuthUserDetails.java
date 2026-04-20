@@ -1,6 +1,7 @@
 package org.example.account.user.model;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 @Builder
 public class AuthUserDetails implements UserDetails {
 
+    private Long idx;
     private String username;
     private String password;
 
