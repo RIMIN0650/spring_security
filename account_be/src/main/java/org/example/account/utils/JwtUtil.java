@@ -30,14 +30,24 @@ public class JwtUtil {
 
         return claims.get("idx", Long.class);
     }
-//
-//    public static String getUsername(String token) {
-//        Claims claims = Jwts.parser()
-//                .verifyWith(encodedKey)
-//                .build()
-//                .parseSignedClaims(token)
-//                .getPayload();
-//
-//        return claims.get("email", String.class);
-//    }
+
+    public static String getUsername(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(encodedKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get("email", String.class);
+    }
+
+    public static String getRole(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(encodedKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.get("role", String.class);
+    }
 }
