@@ -21,4 +21,6 @@ public class User {
     @Setter
     private String password;
 
+    private boolean enable;
+    private String role;
 }

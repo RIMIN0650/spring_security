@@ -24,7 +24,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
 
-        return path.startsWith("/login");
+        return path.startsWith("/login") ||
+                path.startsWith("/user/signup");
     }
 
     @Override
@@ -37,12 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
                     System.out.println(userIdx);
 
                     String username = JwtUtil.getUsername(cookie.getValue());
+                    String role = JwtUtil.getRole(cookie.getValue());
 
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
                             // 토큰에 idx, pw, 권한을 설정해줘야 함
                             username,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                            List.of(new SimpleGrantedAuthority(role))
                     );
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
