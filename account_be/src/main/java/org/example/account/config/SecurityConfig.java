@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthenticationConfiguration configuration;
     private final LoginFilter loginFilter;
+    private final JwtFilter jwtFilter;
 
 
     @Bean // 개발자가 직접 개발한 코드가 아닌 클래스의 객체를 스프링의 빈으로 등록하려고 할 때 사용
@@ -37,6 +38,7 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
 
         http.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
