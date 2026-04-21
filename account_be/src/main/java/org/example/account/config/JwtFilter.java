@@ -38,12 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
                     System.out.println(userIdx);
 
                     String username = JwtUtil.getUsername(cookie.getValue());
+                    String role = JwtUtil.getRole(cookie.getValue());
 
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
                             // 토큰에 idx, pw, 권한을 설정해줘야 함
                             username,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                            List.of(new SimpleGrantedAuthority(role))
                     );
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
