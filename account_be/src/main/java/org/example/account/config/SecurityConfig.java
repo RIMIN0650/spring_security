@@ -24,7 +24,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(
                 (auth) -> auth
-                        .requestMatchers("/login", "/user/signup").permitAll() // /login URL 은 모든 사용자 허용
+                        .requestMatchers("/user/login","/login", "/user/signup").permitAll() // /login URL 은 모든 사용자 허용
                         .requestMatchers("/test/ex01").permitAll()
                         .requestMatchers("/test/ex02").authenticated()
                         .requestMatchers("/test/ex03").hasRole("USER")
